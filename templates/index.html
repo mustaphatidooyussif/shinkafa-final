@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block page_title %}Shinkafa classifier{% endblock %}
+{% block body %}
+    {{ super() }}
+    <div class="container">
+        {% if rice %}<div class="col-md-6">{% else %} <div style="text-align: center; margin: auto 0;">{% endif %}
+            <div class="form-group" style="display: inline-block">
+                <h3>Upload a picture of rice to see what type it is! </h3>
+                    <form method='post' enctype=multipart/form-data > 
+                        <input type="file" name="file" id="imgInp">
+                        <input type="submit" value="Predict">
+                        <ul class="actions"></ul>
+                    </form>
+                    <!-- TODO: Display the uploaded image using the tag below -->
+                <img id='img-upload'/>
+            </div>
+        </div>
+
+        {% if rice %}
+        <div class="col-md-6">
+            <div class="card" style="background:#D1D5D7;margin-top:30px;">
+                <div class="card-body" style="padding-bottom:30px;">
+                 <h3>{{ rice }}</h3>
+
+                {% if results %}
+                   {{ results }}
+                {% endif %}  
+                
+                </div>
+
+                <form method="post">
+                    <input type="hidden" name="rice" value="{{ rice }}">
+                    <input class="btn btn-primary" type="submit" name="action" value="recipe">
+                    <input class="btn btn-primary" type="submit" name="action" value="restaurant">
+                </form>
+              </div>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
