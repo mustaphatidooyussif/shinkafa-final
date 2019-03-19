@@ -8,22 +8,19 @@ import torchvision.transforms as transforms
 import boto3
 
 def get_model():
-    url = 'https://s3.amazonaws.com/rice-classifier-frontend/checkpoint.pth'
-    # checkpoint_path = 'models/checkpoint.pth'
-    f = ur.urlopen(url)
-    checkpoint_path = io.BytesIO(f.read())
+    # url = 'https://s3.amazonaws.com/rice-classifier-frontend/checkpoint.pth'
+    checkpoint_path = 'models/checkpoint.pth'
+    # f = ur.urlopen(url)
+    # checkpoint_path = io.BytesIO(f.read())
     checkpoint = torch.load(checkpoint_path, map_location='cpu')
     model = checkpoint['model']
     model.classifier = checkpoint['classifier']
     model.load_state_dict(checkpoint['state_dict'])
-    model.class_to_idx = checkpoint['class_to_idx']
-    optimizer = checkpoint['optimizer']
-    epochs = checkpoint['epochs']
-    
+
     for param in model.parameters():
         param.requires_grad = False
         
-    return model, checkpoint['class_to_idx']
+    return model
 
 def get_tensor(image_bytes):
 	my_transforms = transforms.Compose([transforms.Resize(256),
